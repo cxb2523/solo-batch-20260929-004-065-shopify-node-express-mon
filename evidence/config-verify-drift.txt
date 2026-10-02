@@ -1,0 +1,46 @@
+
+> shopify-express-boilerplate@2026.09.11 config:verify
+> node scripts/configPipeline/index.js --verify
+
+== Shopify Config Pipeline ==
+mode: verify | strict: false | status: drift | exit: 1
+generatedAt: 2026-10-01T18:48:39.611Z
+
+Facts
+  env (.env):
+    SHOPIFY_API_SCOPES  line 3   write_app_proxy,write_products
+    SHOPIFY_APP_URL     line 5   https://config-pipeline-demo.example.com
+    SHOPIFY_API_KEY     line 1   demo_api_key_0123456789abcdef
+    SHOPIFY_API_SECRET  line 2   sha256:b938f65d (masked)
+  routes (server/): 9 registered
+    POST   /api/webhooks/*webhookTopic      server/index.js:45
+    POST   /api/webhooks/*eventTopic        server/index.js:50
+    POST   /api/graphql                     server/index.js:58
+    USE    /api/apps                        server/index.js:80
+    USE    /api/proxy_route                 server/index.js:81
+    USE    /api/checkout                    server/index.js:82
+    POST   /api/gdpr/:topic                 server/index.js:94
+    USE    *splat                           server/index.js:142
+    USE    /*splat                          server/index.js:161
+  webhooks:
+    app/uninstalled -> /api/webhooks/app_uninstalled  utils/shopify.js:35
+    handler case APP_UNINSTALLED  server/webhooks/_index.js:33
+  whitelist: 221 topics (_developer/types/webhookTopics.js)
+
+Toml (shopify.app.toml)
+  scopes           line 14   write_app_proxy,write_orders
+  application_url  line 6   https://config-pipeline-demo.example.com
+  subscription     line 21   app/uninstalled -> https://config-pipeline-demo.example.com/api/webhooks/app_uninstalled
+
+Issues (1 error(s), 1 warning(s))
+  [ERROR] scope.missing  expected scope "write_products" from .env is not present in shopify.app.toml
+         expected: write_products
+         actual:   write_app_proxy,write_orders
+         source:   .env:3
+         source:   shopify.app.toml:14
+  [WARN ] scope.extra  shopify.app.toml contains scope "write_orders" that is not declared in .env
+         expected: write_app_proxy,write_products
+         actual:   write_orders
+         source:   shopify.app.toml:14
+         source:   .env:3
+DRIFT_EXIT=1

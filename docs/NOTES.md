@@ -8,6 +8,25 @@
 
 ## Server
 
+### Config Pipeline
+
+- `scripts/configPipeline/` runs via `predev` / `prebuild` (and
+  `npm run config:verify`) to keep `shopify.app.toml` in sync with `.env`
+  and the Express routes / webhook entries registered under `server/` and
+  `utils/shopify.js`.
+- Default mode rewrites `shopify.app.toml` from env + code facts;
+  `npm run config:from-toml` back-fills `.env` from the toml instead and
+  lists the differences.
+- Webhook topics are validated against the
+  `_developer/types/webhookTopics.js` whitelist; unknown topics are treated
+  as drift.
+- Missing `.env` / missing fields degrade to warnings with exit 0 locally;
+  under `CI` or `--strict` they hard-fail and break `prebuild`.
+- Secrets are masked (`sha256:<first 8 hex>`) in all output. Reports land in
+  `evidence/config-report.{json,txt}` and
+  `client/public/debug/config-report.json`, which the `/debug/config` page
+  renders.
+
 ### Boilerplate
 
 - The template uses MongoDB (`mongoose`) as it's database. MongoDB is starter friendly since a lot of tutorials on the internet are based on the MERN stack, it's easier for newbies to understand the structure of the project and working with basic APIs and understand how auth works.

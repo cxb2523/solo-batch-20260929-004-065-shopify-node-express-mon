@@ -1,0 +1,168 @@
+{
+  "tool": "configPipeline",
+  "generatedAt": "2026-10-02T01:08:02.955Z",
+  "mode": "verify",
+  "strict": true,
+  "status": "ok",
+  "exitCode": 0,
+  "facts": {
+    "env": {
+      "file": ".env",
+      "exists": true,
+      "missing": [],
+      "scopes": [
+        {
+          "value": "write_app_proxy",
+          "line": 3
+        },
+        {
+          "value": "write_products",
+          "line": 3
+        }
+      ],
+      "appUrl": {
+        "value": "https://config-pipeline-demo.example.com",
+        "line": 5
+      },
+      "apiKey": {
+        "value": "demo_api_key_0123456789abcdef",
+        "line": 1
+      },
+      "apiSecret": {
+        "masked": "sha256:b938f65d",
+        "line": 2
+      }
+    },
+    "routes": [
+      {
+        "method": "POST",
+        "path": "/api/webhooks/*webhookTopic",
+        "file": "server/index.js",
+        "line": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/webhooks/*eventTopic",
+        "file": "server/index.js",
+        "line": 50
+      },
+      {
+        "method": "POST",
+        "path": "/api/graphql",
+        "file": "server/index.js",
+        "line": 58
+      },
+      {
+        "method": "USE",
+        "path": "/api/apps",
+        "file": "server/index.js",
+        "line": 80
+      },
+      {
+        "method": "USE",
+        "path": "/api/proxy_route",
+        "file": "server/index.js",
+        "line": 81
+      },
+      {
+        "method": "USE",
+        "path": "/api/checkout",
+        "file": "server/index.js",
+        "line": 82
+      },
+      {
+        "method": "POST",
+        "path": "/api/gdpr/:topic",
+        "file": "server/index.js",
+        "line": 94
+      },
+      {
+        "method": "USE",
+        "path": "*splat",
+        "file": "server/index.js",
+        "line": 142
+      },
+      {
+        "method": "USE",
+        "path": "/*splat",
+        "file": "server/index.js",
+        "line": 161
+      }
+    ],
+    "webhooks": {
+      "registered": [
+        {
+          "topics": [
+            "app/uninstalled"
+          ],
+          "url": "/api/webhooks/app_uninstalled",
+          "file": "utils/shopify.js",
+          "line": 35
+        }
+      ],
+      "handlers": [
+        {
+          "topic": "APP_UNINSTALLED",
+          "file": "server/webhooks/_index.js",
+          "line": 33
+        }
+      ],
+      "ingress": [
+        {
+          "method": "POST",
+          "path": "/api/webhooks/*webhookTopic",
+          "file": "server/index.js",
+          "line": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/webhooks/*eventTopic",
+          "file": "server/index.js",
+          "line": 50
+        }
+      ]
+    }
+  },
+  "toml": {
+    "file": "shopify.app.toml",
+    "exists": true,
+    "scopes": {
+      "list": [
+        "write_app_proxy",
+        "write_products"
+      ],
+      "line": 14
+    },
+    "applicationUrl": {
+      "value": "https://config-pipeline-demo.example.com",
+      "line": 6
+    },
+    "clientId": {
+      "value": "demo_api_key_0123456789abcdef",
+      "line": 5
+    },
+    "subscriptions": [
+      {
+        "topics": [
+          "app/uninstalled"
+        ],
+        "uri": "https://config-pipeline-demo.example.com/api/webhooks/app_uninstalled",
+        "line": 21,
+        "uriLine": 22
+      }
+    ],
+    "parseError": null
+  },
+  "whitelist": {
+    "file": "_developer/types/webhookTopics.js",
+    "exists": true,
+    "count": 221
+  },
+  "issues": [],
+  "writerOutput": null,
+  "envUpdates": [],
+  "summary": {
+    "errors": 0,
+    "warnings": 0
+  }
+}
