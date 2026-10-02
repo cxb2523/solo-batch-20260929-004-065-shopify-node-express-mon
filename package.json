@@ -12,10 +12,15 @@
     "url": "https://github.com/kinngh/shopify-node-express-mongodb-app.git"
   },
   "scripts": {
+    "predev": "node scripts/configPipeline/index.js",
     "dev": "NODE_ENV=dev nodemon server/index.js --ignore client/ --ignore dist/ ",
+    "prebuild": "node scripts/configPipeline/index.js",
     "build": "vite build --config=./client/vite.config.js",
     "start": "NODE_ENV=prod node server/index.js",
     "-----> utils <-----": "",
+    "config:verify": "node scripts/configPipeline/index.js --verify",
+    "config:sync": "node scripts/configPipeline/index.js",
+    "config:from-toml": "node scripts/configPipeline/index.js --from-toml",
     "update": "ncu -u",
     "pretty": "prettier --write .",
     "-----> Tunnel <-----": "",

@@ -67,6 +67,29 @@ const DebugIndex = () => {
             <Card>
               <BlockStack gap="200">
                 <Text as="h2" variant="headingMd">
+                  Config Pipeline
+                </Text>
+                <Text>
+                  View the sanitized config verification report (env, routes,
+                  webhooks vs shopify.app.toml).
+                </Text>
+                <InlineStack wrap={false} align="end">
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      navigate("/debug/config");
+                    }}
+                  >
+                    Inspect
+                  </Button>
+                </InlineStack>
+              </BlockStack>
+            </Card>
+          </Layout.Section>
+          <Layout.Section variant="oneHalf">
+            <Card>
+              <BlockStack gap="200">
+                <Text as="h2" variant="headingMd">
                   Billing API
                 </Text>
                 <Text>
@@ -85,7 +108,6 @@ const DebugIndex = () => {
               </BlockStack>
             </Card>
           </Layout.Section>
-          <Layout.Section variant="oneHalf" />
         </Layout>
       </Page>
     </>

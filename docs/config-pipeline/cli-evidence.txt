@@ -1,0 +1,156 @@
+=== CLI evidence: scripts/configPipeline ===
+
+--- Case 1: clean checkout (no .env, no shopify.app.toml), 
+pm run config:verify -> exit 0 ---
+
+> shopify-express-boilerplate@2026.09.11 config:verify
+> node scripts/configPipeline/index.js --verify
+
+Config pipeline report (2026-10-02T17:54:43.124Z)
+Mode: verify
+Status: OK
+
+== Env facts ==
+  .env: <missing>
+
+== Code facts ==
+  Express routes registered: 17
+    POST   /api/webhooks/*webhookTopic  [server/index.js:45]
+    POST   /api/webhooks/*eventTopic  [server/index.js:50]
+    POST   /api/graphql  [server/index.js:58]
+    USE    /api/apps  [server/index.js:80]
+    USE    /api/proxy_route  [server/index.js:81]
+    USE    /api/checkout  [server/index.js:82]
+    POST   /api/gdpr/:topic  [server/index.js:94]
+    USE    *splat  [server/index.js:142]
+    USE    /*splat  [server/index.js:161]
+    GET    /json  [server/routes/app_proxy/index.js:9]
+    GET    /  [server/routes/checkout/index.js:8]
+    GET    /  [server/routes/index.js:10]
+    POST   /  [server/routes/index.js:24]
+    GET    /debug/gql  [server/routes/index.js:37]
+    GET    /debug/activeWebhooks  [server/routes/index.js:63]
+    GET    /debug/getActiveSubscriptions  [server/routes/index.js:96]
+    GET    /debug/createNewSubscription  [server/routes/index.js:138]
+  Webhook topics in code: app/uninstalled
+  Whitelist topics available: 221
+
+== TOML facts ==
+  shopify.app.toml: <missing>
+
+== Warnings ==
+  .env is missing; env-dependent checks degraded to warnings (copy .env.example to .env)
+
+== Drift (0) ==
+  none
+
+Report JSON written to D:\gsb-auto\batches\batch-20260929-004\065-shopify-node-express-mon\B\client\public\config-report.json
+
+--- Case 2: env present, 
+pm run config:sync (predev/prebuild hook) -> exit 0 ---
+
+> shopify-express-boilerplate@2026.09.11 config:sync
+> node scripts/configPipeline/index.js
+
+Config pipeline report (2026-10-02T17:54:43.650Z)
+Mode: sync
+Status: OK
+
+== Env facts ==
+  scopes (SHOPIFY_API_SCOPES) = write_app_proxy,write_products  [.env:17]
+  appUrl (SHOPIFY_APP_URL) = https://example-tunnel.trycloudflare.com  [.env:3]
+  apiKey (SHOPIFY_API_KEY) = test_api_key_123  [.env:1]
+  apiSecret (SHOPIFY_API_SECRET) = sha256:b215176d  [.env:18]
+
+== Code facts ==
+  Express routes registered: 17
+    POST   /api/webhooks/*webhookTopic  [server/index.js:45]
+    POST   /api/webhooks/*eventTopic  [server/index.js:50]
+    POST   /api/graphql  [server/index.js:58]
+    USE    /api/apps  [server/index.js:80]
+    USE    /api/proxy_route  [server/index.js:81]
+    USE    /api/checkout  [server/index.js:82]
+    POST   /api/gdpr/:topic  [server/index.js:94]
+    USE    *splat  [server/index.js:142]
+    USE    /*splat  [server/index.js:161]
+    GET    /json  [server/routes/app_proxy/index.js:9]
+    GET    /  [server/routes/checkout/index.js:8]
+    GET    /  [server/routes/index.js:10]
+    POST   /  [server/routes/index.js:24]
+    GET    /debug/gql  [server/routes/index.js:37]
+    GET    /debug/activeWebhooks  [server/routes/index.js:63]
+    GET    /debug/getActiveSubscriptions  [server/routes/index.js:96]
+    GET    /debug/createNewSubscription  [server/routes/index.js:138]
+  Webhook topics in code: app/uninstalled
+  Whitelist topics available: 221
+
+== TOML facts ==
+  scopes: write_app_proxy, write_products
+  application_url: https://example-tunnel.trycloudflare.com
+  webhook topics: app/uninstalled
+
+== Actions ==
+  Regenerated shopify.app.toml via _developer/tomlWriter.js + webhookWriter.js
+
+== Drift (0) ==
+  none
+
+Report JSON written to D:\gsb-auto\batches\batch-20260929-004\065-shopify-node-express-mon\B\client\public\config-report.json
+
+--- Case 3: hand-edited scope in shopify.app.toml (write_products -> write_orders_evil), 
+pm run config:verify -> exit 1 ---
+
+> shopify-express-boilerplate@2026.09.11 config:verify
+> node scripts/configPipeline/index.js --verify
+
+Config pipeline report (2026-10-02T17:54:43.909Z)
+Mode: verify
+Status: DRIFT
+
+== Env facts ==
+  scopes (SHOPIFY_API_SCOPES) = write_app_proxy,write_products  [.env:17]
+  appUrl (SHOPIFY_APP_URL) = https://example-tunnel.trycloudflare.com  [.env:3]
+  apiKey (SHOPIFY_API_KEY) = test_api_key_123  [.env:1]
+  apiSecret (SHOPIFY_API_SECRET) = sha256:b215176d  [.env:18]
+
+== Code facts ==
+  Express routes registered: 17
+    POST   /api/webhooks/*webhookTopic  [server/index.js:45]
+    POST   /api/webhooks/*eventTopic  [server/index.js:50]
+    POST   /api/graphql  [server/index.js:58]
+    USE    /api/apps  [server/index.js:80]
+    USE    /api/proxy_route  [server/index.js:81]
+    USE    /api/checkout  [server/index.js:82]
+    POST   /api/gdpr/:topic  [server/index.js:94]
+    USE    *splat  [server/index.js:142]
+    USE    /*splat  [server/index.js:161]
+    GET    /json  [server/routes/app_proxy/index.js:9]
+    GET    /  [server/routes/checkout/index.js:8]
+    GET    /  [server/routes/index.js:10]
+    POST   /  [server/routes/index.js:24]
+    GET    /debug/gql  [server/routes/index.js:37]
+    GET    /debug/activeWebhooks  [server/routes/index.js:63]
+    GET    /debug/getActiveSubscriptions  [server/routes/index.js:96]
+    GET    /debug/createNewSubscription  [server/routes/index.js:138]
+  Webhook topics in code: app/uninstalled
+  Whitelist topics available: 221
+
+== TOML facts ==
+  scopes: write_app_proxy, write_orders_evil
+  application_url: https://example-tunnel.trycloudflare.com
+  webhook topics: app/uninstalled
+
+== Drift (2) ==
+  1. [scope-missing-in-toml] Scope "write_products" is declared in .env but missing in shopify.app.toml
+     expected: write_products
+     actual:   write_app_proxy,write_orders_evil
+     source:   .env:17
+     source:   shopify.app.toml:14
+  2. [scope-extra-in-toml] Scope "write_orders_evil" is in shopify.app.toml but not declared in .env
+     expected: write_app_proxy,write_products
+     actual:   write_orders_evil
+     source:   shopify.app.toml:14
+     source:   .env:17
+
+Report JSON written to D:\gsb-auto\batches\batch-20260929-004\065-shopify-node-express-mon\B\client\public\config-report.json
+
